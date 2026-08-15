@@ -1,0 +1,20 @@
+Start testing: Aug 15 16:06 MSK
+----------------------------------------------------------
+1/1 Testing: RunAllocatorIntegrationTest
+1/1 Test: RunAllocatorIntegrationTest
+Command: "/home/faiberser/neuro/example/my_allocator_for_Linux_CPP/build/allocator_tests"
+Directory: /home/faiberser/neuro/example/my_allocator_for_Linux_CPP/build
+"RunAllocatorIntegrationTest" start time: Aug 15 16:06 MSK
+Output:
+----------------------------------------------------------
+--- Запуск теста кастомного C++20 аллокатора ---
+Элементы вектора: 10 20 30 40 50 60 70 80 90 100 
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"RunAllocatorIntegrationTest" end time: Aug 15 16:06 MSK
+"RunAllocatorIntegrationTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Aug 15 16:06 MSK

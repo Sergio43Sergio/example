@@ -1,0 +1,5 @@
+/home/faiberser/neuro/example/my_allocator_for_Linux_CPP/build/CMakeFiles/allocator_demo.dir
+/home/faiberser/neuro/example/my_allocator_for_Linux_CPP/build/CMakeFiles/allocator_tests.dir
+/home/faiberser/neuro/example/my_allocator_for_Linux_CPP/build/CMakeFiles/test.dir
+/home/faiberser/neuro/example/my_allocator_for_Linux_CPP/build/CMakeFiles/edit_cache.dir
+/home/faiberser/neuro/example/my_allocator_for_Linux_CPP/build/CMakeFiles/rebuild_cache.dir

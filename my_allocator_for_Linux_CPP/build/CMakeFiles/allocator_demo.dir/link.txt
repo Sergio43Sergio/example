@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/allocator_demo.dir/main.cpp.o -o allocator_demo 

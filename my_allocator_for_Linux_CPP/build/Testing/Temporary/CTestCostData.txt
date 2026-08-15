@@ -1,0 +1,2 @@
+RunAllocatorIntegrationTest 1 0.00139738
+---

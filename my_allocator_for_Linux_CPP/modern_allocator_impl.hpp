@@ -35,9 +35,12 @@
 #endif
 // clang-format on 
 // @endverbation
-#include "modern_allocator.hpp" 
 
-#include <iostream>
+#include <sys/mman.h> // Здесь находятся флаги PROT_READ, PROT_WRITE, MAP_ANONYMOUS, MAP_PRIVATE
+#include <unistd.h>   // Здесь находится доступ к системным типам POSIX
+#include <iostream>   // Здесь живёт std::cerr
+
+//#include "modern_allocator.hpp"
 
 namespace os::memory {
 
@@ -54,7 +57,7 @@ namespace os::memory {
         size_t pages_count = (total_needed + PAGE_SIZE - 1 ) / PAGE_SIZE;
         size_t mmap_size = pages_count * PAGE_SIZE;
         // 3. Выполняем реальный системный вызов у ядру Linux для выделения анонимной памяти в RAM
-        void* ptr = ::mmap(nullptr, mmap_size, PORT_READ | PORT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+        void* ptr = ::mmap(nullptr, mmap_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
         // 4. Если ядро ОС отказало в памяти, тогда возыращвем nullptr
         if (ptr == MAP_FAILED){
             return nullptr;
@@ -136,6 +139,11 @@ namespace os::memory {
         std::lock_guard<std::mutex> lock(state.mutex);
         // 2. Аппаратно выравниваем размер вверх по сетке кратных степеней двойки (-8) через маску ~7
         size_t aligned_size = align_up<std::byte>(size);
+            // 2. ЖЕСТКАЯ СИСТЕМНАЯ ЗАЩИТА: Размер полезного блока не может быть меньше 16 байт!
+            // Если он меньше, принудительно поднимаем его до MIN_BLOCK_SIZE.
+            if (aligned_size < MIN_BLOCK_SIZE) {
+                 aligned_size = MIN_BLOCK_SIZE;
+             }
         BlockHeader* curr = state.free_list_head;
         BlockHeader* found_block = nullptr;
         // 3. Линейный поиск первого подходящего по размеру свободного блока (First Fit)
@@ -158,9 +166,13 @@ namespace os::memory {
         }
         // 5. Алгоритм расщепления блока (Splitting). Если кусок слишклм большой, отрезаем лишнее
         if (found_block->size >= aligned_size + HEADER_SIZE + MIN_BLOCK_SIZE){
-            auto* raw_base = reinterpret_cast<std::byte*>(found_block);
-            //Вычисляем адрес начала нового отрезанного заголовка
-            auto* next_block = reinterpret_cast<BlockHeader*>(raw_base + HEADER_SIZE + aligned_size);
+            //1. Получаем абсолютный точный числовой адрес текущего блока в байтах 
+            uintptr_t base_addr = reinterpret_cast<uintptr_t>(found_block);
+            // 2. Расчитываем адрес следующего блока 
+            uintptr_t next_addr = base_addr + HEADER_SIZE + aligned_size;
+            //auto* raw_base = reinterpret_cast<std::byte*>(found_block);
+            // 3. Превращаем полученное число обратно в указатель на структуру 
+            auto* next_block = reinterpret_cast<BlockHeader*>(next_addr);
             //Инициализируем новый отрезанный блок как свободный
             next_block->magic = BLOCK_MAGIC;
             next_block->size = found_block-> size - aligned_size - HEADER_SIZE;
