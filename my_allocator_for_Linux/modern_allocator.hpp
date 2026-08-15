@@ -4,7 +4,7 @@
  * @details Реализует структуру Explicit Free List поверх страниц виртуальной памяти Linux (mmap).
  *          Полностью совместим со стандартными контейнерами STL (std::vector, std::list и др.).
  * 
- * @copyright Copyright (c) 2026 Sergey Z
+ * @copyright Copyright (c) 2026 Sergey Zobach
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@
  */
  namespace os::memory {
     /**
-    * @brief Побитовое выравнивание разсера памяти вверх до кратности выравнивания типа Т
+    * @brief Побитовое выравнивание размера памяти вверх до кратности выравнивания типа Т
     * @details Вычисляется полностью на этапе компиляции (Compile-time). Гарантирует минимальное выравнивание в 8 байт.
     * @tparam T Тип данных, по которому определяется требуемое выравниевание (alignof).
     * @param size Исходный размер в байтах, который необходимо выровнять.
@@ -90,7 +90,7 @@
      /**
       * @brief Размер заголовка методанных, выровненный по границам процессора 
       */
-      constexpr size_t HEADER_SIZE = align_up<BlockHeader>(sizeoff(BlockHeader));
+      constexpr size_t HEADER_SIZE = align_up<BlockHeader>(sizeof(BlockHeader));
       /**
       * @brief Минимальный полезный размер блока, способный вместить указатели двусвязанного списка свободных элементов 
       */
