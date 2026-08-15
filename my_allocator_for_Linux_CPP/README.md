@@ -2,7 +2,7 @@
 
 A custom, high-performance, thread-safe memory allocator implemented in **Modern C++20** that bypasses standard `malloc` and manages virtual memory pages directly via the Linux `mmap` system call. Fully compliant with the ISO C++ `Allocator` concept, making it seamlessly compatible with any STL containers (`std::vector`, `std::list`, `std::map`, etc.).
 
-## 🚀 Key Architectural Features
+## Key Architectural Features
 
 - **Direct Kernel Interaction:** Allocates raw memory pages directly from the Linux kernel using `::mmap()` with `MAP_ANONYMOUS` flags.
 - **Explicit Free List:** Manages unallocated memory blocks using a doubly-linked list (`FreeNode`) embedded directly inside the unused payload area (**Zero-memory overhead**).
