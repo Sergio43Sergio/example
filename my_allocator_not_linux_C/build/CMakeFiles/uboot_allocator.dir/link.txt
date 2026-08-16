@@ -1,0 +1,2 @@
+/usr/bin/ar qc libuboot_allocator.a CMakeFiles/uboot_allocator.dir/uboot_allocator.c.o
+/usr/bin/ranlib libuboot_allocator.a

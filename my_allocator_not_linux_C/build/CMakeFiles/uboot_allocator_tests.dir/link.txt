@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/uboot_allocator_tests.dir/main.c.o -o uboot_allocator_tests  libuboot_allocator.a 

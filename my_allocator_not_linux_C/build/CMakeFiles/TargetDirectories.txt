@@ -1,0 +1,6 @@
+/home/faiberser/neuro/example/my_allocator_not_linux_C/build/CMakeFiles/uboot_allocator.dir
+/home/faiberser/neuro/example/my_allocator_not_linux_C/build/CMakeFiles/uboot_allocator_demo.dir
+/home/faiberser/neuro/example/my_allocator_not_linux_C/build/CMakeFiles/uboot_allocator_tests.dir
+/home/faiberser/neuro/example/my_allocator_not_linux_C/build/CMakeFiles/test.dir
+/home/faiberser/neuro/example/my_allocator_not_linux_C/build/CMakeFiles/edit_cache.dir
+/home/faiberser/neuro/example/my_allocator_not_linux_C/build/CMakeFiles/rebuild_cache.dir
