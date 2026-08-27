@@ -15,6 +15,7 @@
  #include <thread>
  #include <chrono>
  #include <csignal>
+ #include "NetworkParser.hpp"
 
  /**
   * @class NetworkDaemon
@@ -121,10 +122,24 @@
             syslog(LOG_INFO, "Network Daemon successfully detached and running in background.");
 
             using namespace std::chrono_literals;
+            NetworkParser parser;
             
             //основной рабочий цикл фоновой программы 
             while (m_isRunning.load(std::memory_order_relaxed)){
-                syslog(LOG_INFO, "Daemon pulse: Checking network connections (stub)...");
+                try{
+                    auto connections = parser.parseTcpConnections();
+                    syslog(LOG_INFO, "--- Active Network Connections --- ");
+                    for(const auto& conn : connections){
+                        //логируем каждое подключение
+                        syslog(LOG_INFO, "Proto: TCP | Local: %s:%d | Remote: %s:%d | State: %s",
+                               conn.localIP.c_str(), conn.localPort,
+                               conn.remoteIp.c_str(), conn.remotePort,
+                                conn.state.c_str());
+                    }
+                } catch (const std::exception& e){
+                    syslog(LOG_ERR, "Parser error: %s", e.what());
+                }
+                //syslog(LOG_INFO, "Daemon pulse: Checking network connections (stub)...");
 
                 //записываем на 10 секунде
                 std::this_thread::sleep_for(10s);
@@ -132,7 +147,7 @@
             // Логируем выход из цикла уже в основном потоке
             syslog(LOG_INFO, "Exited main loop safety. Preparing for destruction. ");
 
-        }
+        } //run()
 
  };
 
